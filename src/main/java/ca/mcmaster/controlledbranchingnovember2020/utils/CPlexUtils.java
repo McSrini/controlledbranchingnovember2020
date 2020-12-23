@@ -23,12 +23,8 @@ public class CPlexUtils {
     public static void setCplexConfig (IloCplex cplex) throws IloException {
         cplex.setParam( IloCplex.Param.MIP.Strategy.File,FILE_STRATEGY_DISK_COMPRESSED  );
         cplex.setParam( IloCplex.Param.MIP.Strategy.HeuristicFreq , -ONE);
-        //cplex.setParam( IloCplex.Param.WorkMem, HUGE_WORKMEM) ;
+        
         cplex.setParam(IloCplex.Param.Emphasis.MIP, MIP_EMPHASIS_TO_USE) ; 
-        if (USE_BARRIER_FOR_SOLVING_LP) {
-            cplex.setParam( IloCplex.Param.NodeAlgorithm  ,  IloCplex.Algorithm.Barrier);
-            cplex.setParam( IloCplex.Param.RootAlgorithm  ,  IloCplex.Algorithm.Barrier);
-        }
          
         if (DISABLE_PRESOLVE_NODE) cplex.setParam( IloCplex.Param.MIP.Strategy.PresolveNode , -ONE  );
         if (DISABLE_PRESOLVE) cplex.setParam( IloCplex.Param.Preprocessing.Presolve,  false);

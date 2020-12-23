@@ -102,7 +102,7 @@ public class Subtree_LCA extends SubTree {
             lcaNodes.put (count, current) ;
              
             
-            while ( getCount (lcaNodes) < NUM_WORKERS-ONE ){
+            while ( getCount (lcaNodes) < COUNT_OF_LCA_NODES_TO_IDENTIFY ){
                 TreeStructureNode nodeToSplit = getNodeToSplit(lcaNodes) ;
                 if (nodeToSplit == null){
                     break;
@@ -111,6 +111,11 @@ public class Subtree_LCA extends SubTree {
                     split (nodeToSplit, lcaNodes) ; 
                 }
             }
+            
+            /*System.out.println("\n\n\n\n printing final lca node keyset") ;
+            for (Map.Entry    < Long , ArrayList< TreeStructureNode>  > entry: lcaNodes.entrySet()){
+                System.out.println("keySize "+ entry.getKey() + " value " + entry.getValue().size()) ;  
+            }*/
             
         }
         

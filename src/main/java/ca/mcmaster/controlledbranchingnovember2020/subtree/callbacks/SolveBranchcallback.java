@@ -64,7 +64,7 @@ public class SolveBranchcallback extends IloCplex.BranchCallback {
                         
                         boolean isDownBranch = dir.equals(   IloCplex.BranchDirection.Down);     
                         
-                        System.out.println("Node " + getNodeId() + " created " + kid + " isdown " + isDownBranch + " var " + var.getName()) ;
+                        //System.out.println("Node " + getNodeId() + " created " + kid + " isdown " + isDownBranch + " var " + var.getName()) ;
                         
                     }
                 }else if (  thisNodesAttachment.branchingOverrules_for_Spwaning_Kids==null) {
@@ -91,7 +91,7 @@ public class SolveBranchcallback extends IloCplex.BranchCallback {
                         NodeAttachment kidAttach = new NodeAttachment (thisNodesAttachment, isDownBranch, null );
                         IloCplex.NodeId  kid  = makeBranch(var,bound, dir ,getObjValue(), kidAttach); 
                         
-                        System.out.println("Node " + getNodeId() + " created " + kid + " isdown " + isDownBranch + " var " + var.getName()) ;
+                        //System.out.println("Node " + getNodeId() + " created " + kid + " isdown " + isDownBranch + " var " + var.getName()) ;
                        
                     }
                 }else {
@@ -113,7 +113,7 @@ public class SolveBranchcallback extends IloCplex.BranchCallback {
                         NodeAttachment kidAttach = new NodeAttachment (thisNodesAttachment, isDownBranch, overrule  );
                         IloCplex.NodeId  kid  = makeBranch( compoundBranchingCondition, kidAttach); 
                         
-                        System.out.println("Node " + getNodeId() + " created " + kid + " isdown " + isDownBranch + " compound condition ") ;
+                        //System.out.println("Node " + getNodeId() + " created " + kid + " isdown " + isDownBranch + " compound condition ") ;
                        
                     }
                 }
@@ -134,7 +134,7 @@ public class SolveBranchcallback extends IloCplex.BranchCallback {
         double[] bounds = new double[size];
         IloCplex.BranchDirection[ ]  dirs = new  IloCplex.BranchDirection[size];
         
-        System.out.println("compound branch condition") ;
+        //System.out.println("compound branch condition") ;
         
         int index = ZERO;
         for (Map.Entry<Lite_VariableAndBound, Boolean> entry : compoundBranchingCondition.entrySet()){
@@ -144,7 +144,7 @@ public class SolveBranchcallback extends IloCplex.BranchCallback {
             dirs[index] = entry.getValue() ? IloCplex.BranchDirection.Down : IloCplex.BranchDirection.Up;
             index ++;
             
-            System.out.println("Var " + SubTree.varMap.get( entry.getKey().varName) + " dir " +entry.getValue() ) ;
+            //System.out.println("Var " + SubTree.varMap.get( entry.getKey().varName) + " dir " +entry.getValue() ) ;
              
         }
         

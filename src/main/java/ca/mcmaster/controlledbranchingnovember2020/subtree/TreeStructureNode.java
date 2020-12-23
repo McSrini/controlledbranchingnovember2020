@@ -38,6 +38,11 @@ public class TreeStructureNode {
         return getBranchingOverRule (this);
     }
     
+    /*public boolean isPerfect (){
+        return (downBranch_nonLeaf_refcount + upBranch_NonLeaf_refcount +ONE) +ONE == 
+                downBranch_Leaf_refcount + upBranch_Leaf_refcount;
+    }*/
+    
     //print uncompacted tree, left first
     public void printMe(){
         

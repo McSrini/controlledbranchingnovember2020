@@ -33,14 +33,22 @@ public class LCA_Utils {
         TreeStructureNode downBranchLCA = skip_NonLeafNode_with1Child (downChild) ; 
         
         long upBranchLCALeafCount = upBranchLCA.downBranch_Leaf_refcount + upBranchLCA.upBranch_Leaf_refcount;
+        
+        //System.out.println("upBranchLCALeafCount "+ upBranchLCALeafCount) ;
+        
         if (upBranchLCALeafCount> ZERO){
+            
             //not a leaf
             ArrayList< TreeStructureNode>  current=           lcaNodes.get (upBranchLCALeafCount) ;
             if (null == current) current = new ArrayList< TreeStructureNode> ();
             current.add (upBranchLCA );
             lcaNodes.put (upBranchLCALeafCount, current) ;
         }
+        
         long downBranchLCALEafcount = downBranchLCA.downBranch_Leaf_refcount + downBranchLCA.upBranch_Leaf_refcount;
+        
+        //System.out.println("downBranchLCALEafcount "+ downBranchLCALEafcount) ;
+        
         if (downBranchLCALEafcount> ZERO){
             //not a leaf
             ArrayList< TreeStructureNode>  current=           lcaNodes.get ( downBranchLCALEafcount) ;
@@ -48,6 +56,7 @@ public class LCA_Utils {
             current.add (downBranchLCA);
             lcaNodes.put ( downBranchLCALEafcount, current) ;
         }
+        
     }
     
     public static TreeMap    < Long , ArrayList< Lite_LCA_Node>  >  
@@ -74,7 +83,17 @@ public class LCA_Utils {
     public static  TreeStructureNode getNodeToSplit( TreeMap    < Long , ArrayList< TreeStructureNode>  > lcaNodes ) {
         TreeStructureNode result = null;
         long succesfulKey = -ONE;
-        for ( Map.Entry    < Long , ArrayList< TreeStructureNode>  >  entry: lcaNodes.descendingMap().entrySet()){
+        
+        /*System.out.println("\n\n\n\n printing lca node keyset") ;
+        for (Map.Entry    < Long , ArrayList< TreeStructureNode>  > entry: lcaNodes.entrySet()){
+            System.out.println("keySize "+ entry.getKey() + " value " + entry.getValue().size()) ;  
+        }*/
+        
+        //for ( Map.Entry    < Long , ArrayList< TreeStructureNode>  >  entry: lcaNodes.descendingMap().entrySet()){
+        for ( Map.Entry    < Long , ArrayList< TreeStructureNode>  >  entry: lcaNodes .entrySet()){
+            
+            if (TWO >= entry.getKey()) continue;
+            
             ArrayList< TreeStructureNode> current = entry.getValue();
             result = getNodeToSplit (current) ;
             if (null!=result) {   
@@ -96,7 +115,7 @@ public class LCA_Utils {
             Map<Lite_VariableAndBound , Boolean> root_VarFixings){
         Lite_LCA_Node result = new Lite_LCA_Node();
         
-        result.lpRelax = tsNode.lpRelaxObjective;
+        //result.lpRelax = tsNode.lpRelaxObjective;
         result.numLeafsRepresented= tsNode.downBranch_Leaf_refcount+ tsNode.upBranch_Leaf_refcount; 
         result.varFixings  = tsNode.getVarFixings();  
         
@@ -104,7 +123,8 @@ public class LCA_Utils {
             result.varFixings.put( entry.getKey(), entry.getValue() );
         }
          
-        result.branchingOverrule = tsNode.getBranchingOverRule();
+        /*if (! tsNode.isPerfect())*/ result.branchingOverrule = tsNode.getBranchingOverRule(); 
+        
      
         return result;
     }

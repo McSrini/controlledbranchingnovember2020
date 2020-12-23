@@ -6,6 +6,7 @@
 package ca.mcmaster.controlledbranchingnovember2020.subtree;
 
 import static ca.mcmaster.controlledbranchingnovember2020.Constants.*;
+import ca.mcmaster.controlledbranchingnovember2020.Parameters;
 import static ca.mcmaster.controlledbranchingnovember2020.Parameters.*;
 import ca.mcmaster.controlledbranchingnovember2020.subtree.callbacks.LeafEnumerateNodecallback;
 import ca.mcmaster.controlledbranchingnovember2020.subtree.callbacks.PruneNodecallback;
@@ -96,6 +97,7 @@ public class SubTree {
         cplex.use ( new SolveBranchcallback ( ) );
         cplex.setParam( IloCplex.Param.TimeLimit,  SOLUTION_CYCLE_TIME_SECONDS);
         logger.info (" MIP emphasis is " + MIP_EMPHASIS_TO_USE) ;
+        logger.info (" LCA count threshold is " +  Parameters.COUNT_OF_LCA_NODES_TO_IDENTIFY) ;
         
         for (int cycles = ONE;  ; cycles ++){    
             
@@ -145,12 +147,21 @@ public class SubTree {
                cplex.getStatus().equals( IloCplex.Status.Optimal);
         boolean condition2 = false;
         
-        if (upperCutoff < BILLION){
+        double localCutoff = BILLION;
+        if (upperCutoff < BILLION) localCutoff= upperCutoff;
+        if (cplex.getStatus().equals( IloCplex.Status.Feasible)){
+            double bestLocalSoln = cplex.getObjValue();
+            if (bestLocalSoln < localCutoff){
+                localCutoff = bestLocalSoln;
+            }
+        }
+        
+        if (localCutoff < BILLION){
             //|bestbound-upperCutoff|/(1e-10+|upperCutoff|) 
-            double dist_mip_gap = Math.abs( cplex.getBestObjValue() - upperCutoff);
+            double dist_mip_gap = Math.abs( cplex.getBestObjValue() - localCutoff );
             double denominator =  DOUBLE_ONE/ (BILLION) ;
             denominator = denominator /TEN;
-            denominator = denominator +  Math.abs(upperCutoff);
+            denominator = denominator +  Math.abs( localCutoff);
             dist_mip_gap = dist_mip_gap /denominator;
             condition2 = dist_mip_gap < EPSILON;
         }

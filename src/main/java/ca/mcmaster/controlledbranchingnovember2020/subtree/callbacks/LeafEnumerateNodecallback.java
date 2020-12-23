@@ -46,10 +46,10 @@ public class LeafEnumerateNodecallback extends IloCplex.NodeCallback {
             }
         }
         
-        System.out.println("printing leafs");
+        /*System.out.println("printing leafs");
         for (TreeStructureNode  leaf :leafNodeAttahments){
             System.out.println(leaf.nodeID);
-        }
+        }*/
         
         abort();
     }

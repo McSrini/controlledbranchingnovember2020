@@ -25,7 +25,7 @@ public class Constants {
     public static final int THOUSAND = 1000;      
     public static final int THIRTYSIX_HUNDRED  = 3600 ; 
     
-    public static final double EPSILON = 0.0001; 
+    public static final double EPSILON =     0.19208 ;//  0.0001; 
     
      
     public static final int MILLION = 1000000;
